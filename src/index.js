@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
 import Loader from './Loader';
 //import Clock from './Clock';
+import useLocation from './useLocation';
 
 const App = () => {
-  const [lat, setLat] = useState(null);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    window.navigator.geolocation.getCurrentPosition(
-      position => setLat(position.coords.latitude),
-      err => setError(err.message)
-    );
-  }, []) // empty array, so run the arrow func one time in the life cycle of the compoenent
-
+  const [lat, error] = useLocation();
   let content;
   if (error) content = <div>error: {error}</div>
   else if (lat) content = <SeasonDisplay latitude={lat} />;
